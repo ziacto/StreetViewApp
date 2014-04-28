@@ -3,7 +3,7 @@
 <title>Random StreetView picture app</title>
 </head>
 <?php
-$location = "55.7097657,12.5613489";
+$location = "55.7084,12.5620";
 $fov = "60";
 $heading = "235";
 $pitch = "10";
