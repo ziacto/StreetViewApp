@@ -9,10 +9,10 @@ import android.util.Log;
 import android.widget.ImageView;
 
 class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-	  ImageView bmImage;
+	MainFragment returnFragment;
 
-	  public DownloadImageTask(ImageView bmImage) {
-	      this.bmImage = bmImage;
+	  public DownloadImageTask(MainFragment Fragment) {
+	      this.returnFragment = Fragment;
 	  }
 
 	  protected Bitmap doInBackground(String... urls) {
@@ -29,6 +29,7 @@ class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
 	  }
 
 	  protected void onPostExecute(Bitmap result) {
-	      bmImage.setImageBitmap(result);
+		  returnFragment.imageDownloaded(result);
+	      //bmImage.setImageBitmap(result);
 	  }
 	}

@@ -2,6 +2,7 @@ package dk.escteam.streetviewquest;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
 import android.location.Location;
 import android.net.ConnectivityManager;
@@ -49,7 +50,10 @@ public class MainFragment extends Fragment {
             mainActivity = (MainActivity) getActivity();
 
             imageView = (ImageView)rootView.findViewById(R.id.imageView1);
-                       
+            if(mainActivity.fileExists("tempfile.jpeg"))
+			{
+				mainActivity.loadImage("tempfile");
+			}
             return rootView;
         }
         
@@ -66,7 +70,7 @@ public class MainFragment extends Fragment {
             
             	String imageURL = "http://maps.googleapis.com/maps/api/streetview?size=600x600&location=" + mCurrentLocation.getLatitude() + "," + mCurrentLocation.getLongitude() + "&fov=" + fov + "&heading=" + heading + "&pitch=" + pitch + "&sensor=false&key=AIzaSyCx82Y4r6ybWjlOu20V3lcf1HCy6DGwRyA";
             	if(mainActivity.isOnline()){
-            		new DownloadImageTask(imageView).execute(imageURL);
+            		new DownloadImageTask(this).execute(imageURL);
             	}
             }
         }
@@ -77,4 +81,9 @@ public class MainFragment extends Fragment {
             ((MainActivity) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
+
+		public void imageDownloaded(Bitmap result) {
+			imageView.setImageBitmap(result);
+			mainActivity.saveImage(result, "tempfile");
+		}
 }
