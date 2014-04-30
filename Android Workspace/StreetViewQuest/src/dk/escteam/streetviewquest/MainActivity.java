@@ -398,11 +398,12 @@ public class MainActivity extends ActionBarActivity
 		// Use the compress method on the BitMap object to write image to the OutputStream
 			result.compress(Bitmap.CompressFormat.JPEG, 100, fos);
 			fos.close();
+			Log.i("app", "Image Saved");
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
-		return true;
 	}
 
 	public boolean fileExists(String filename) {
@@ -420,8 +421,9 @@ public class MainActivity extends ActionBarActivity
 			// path to /data/data/yourapp/app_data/imageDir
 			File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
 			
-	        File f = new File(directory, filename + ".jpg");
+	        File f = new File(directory, filename + ".jpeg");
 	        Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+	        Log.i("app", "Image Loaded");
 	        return b;
 	    } 
 	    catch (FileNotFoundException e) 

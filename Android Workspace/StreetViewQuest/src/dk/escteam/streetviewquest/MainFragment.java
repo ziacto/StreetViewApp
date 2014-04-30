@@ -21,6 +21,7 @@ public class MainFragment extends Fragment {
 	Location mCurrentLocation;
 	TextView textView;
 	ImageView imageView;
+	boolean imageSet = false;
 	
         /**
          * The fragment argument representing the section number for this
@@ -52,27 +53,36 @@ public class MainFragment extends Fragment {
             imageView = (ImageView)rootView.findViewById(R.id.imageView1);
             if(mainActivity.fileExists("tempfile.jpeg"))
 			{
-				mainActivity.loadImage("tempfile");
+            	Bitmap tempfile = mainActivity.loadImage("tempfile");
+            	if(tempfile != null)
+            	{
+            		imageView.setImageBitmap(tempfile);
+            		imageSet = true;
+            	}
 			}
             return rootView;
         }
         
         public void onLocationConnect(){
-        	mCurrentLocation = mainActivity.getLocation();
-            if(mCurrentLocation != null)
-            {
-            	int fov = (int) (Math.random() * 80 + 11);
-            	int heading = (int) (Math.random() * 360 + 1);
-            	int pitch = (int) (Math.random() * 20 - 9) ;
+        	if(!imageSet)
+        	{
+        		mCurrentLocation = mainActivity.getLocation();
+            	if(mCurrentLocation != null)
+            	{
+            		int fov = (int) (Math.random() * 80 + 11);
+            		int heading = (int) (Math.random() * 360 + 1);
+            		int pitch = (int) (Math.random() * 20 - 9) ;
             	
-            	textView.setText("Location: " + mCurrentLocation.getLatitude() + ", " + mCurrentLocation.getLongitude() + " fov=" + fov + " heading=" + heading + " pitch=" + pitch);
+            		textView.setText("Location: " + mCurrentLocation.getLatitude() + ", " + mCurrentLocation.getLongitude() + " fov=" + fov + " heading=" + heading + " pitch=" + pitch);
 
             
-            	String imageURL = "http://maps.googleapis.com/maps/api/streetview?size=600x600&location=" + mCurrentLocation.getLatitude() + "," + mCurrentLocation.getLongitude() + "&fov=" + fov + "&heading=" + heading + "&pitch=" + pitch + "&sensor=false&key=AIzaSyCx82Y4r6ybWjlOu20V3lcf1HCy6DGwRyA";
-            	if(mainActivity.isOnline()){
-            		new DownloadImageTask(this).execute(imageURL);
+            		String imageURL = "http://maps.googleapis.com/maps/api/streetview?size=600x600&location=" + mCurrentLocation.getLatitude() + "," + mCurrentLocation.getLongitude() + "&fov=" + fov + "&heading=" + heading + "&pitch=" + pitch + "&sensor=false&key=AIzaSyCx82Y4r6ybWjlOu20V3lcf1HCy6DGwRyA";
+            		if(mainActivity.isOnline()){
+            			new DownloadImageTask(this).execute(imageURL);
+            		}
             	}
-            }
+            	imageSet = true;
+        	}
         }
 
         @Override
