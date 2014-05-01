@@ -76,6 +76,8 @@ public class MainActivity extends ActionBarActivity
         connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         
         mLocationClient = new LocationClient(this, this, this);
+        
+        servicesConnected();
     }
     
     public boolean isOnline(){
@@ -390,7 +392,6 @@ public class MainActivity extends ActionBarActivity
 		// Use the compress method on the BitMap object to write image to the OutputStream
 			result.compress(Bitmap.CompressFormat.JPEG, 100, fos);
 			fos.close();
-			Log.i("app", "Image Saved");
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -415,7 +416,6 @@ public class MainActivity extends ActionBarActivity
 			
 	        File f = new File(directory, filename + ".jpeg");
 	        Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
-	        Log.i("app", "Image Loaded");
 	        return b;
 	    } 
 	    catch (FileNotFoundException e) 
