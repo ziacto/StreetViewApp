@@ -6,13 +6,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.ImageView;
 
 class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
 	MainFragment returnFragment;
+	int returnTag;
 
-	  public DownloadImageTask(MainFragment Fragment) {
+	  public DownloadImageTask(MainFragment Fragment, int tag) {
 	      this.returnFragment = Fragment;
+	      this.returnTag = tag;
 	  }
 
 	  protected Bitmap doInBackground(String... urls) {
@@ -29,7 +30,7 @@ class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
 	  }
 
 	  protected void onPostExecute(Bitmap result) {
-		  returnFragment.imageDownloaded(result);
+		  returnFragment.imageDownloaded(result, returnTag);
 	      //bmImage.setImageBitmap(result);
 	  }
 	}
